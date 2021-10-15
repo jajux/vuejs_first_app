@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cours openclassrooms</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -26,19 +28,23 @@
                         <li><a href="#">Réservations</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
-                    <button><i class="ri-moon-clear-fill">Thème</i></button>
+                    <button type="button" @click="changecolorDark" id="change_background" @keyup.enter="changecolor">Nuit</button>
+                    <button type="button" @click="changecolorDay" id="change_background" @keyup.enter="changecolor">Jour</button>
+
                 </div>
             </nav>
         </header>
         <div class="heroimg">
             <div class="heroimg__text">
-                <h1> {{ restaurantName }}</h1>
+                <h1> 
+                    {{ Namerestaurant }}
+                </h1>
                 <p>
-                    Restaurant de cuisine gastro-mantique
+                    Restaurant sans pertes et sans surprises
                 </p>
             </div>
         </div>
-        <h2>Chez {{ restaurantName }}</h2>
+        <h2 v-for="item in  infoRestaurant" >Chez {{ item.Namerestaurant }}</h2>
         <h3>Menu</h3>
         <ul>
             <li>Entrée = {{ fitstPlate }} €</li>
@@ -54,7 +60,7 @@
         <p>total = {{ totalWinePrice}}</p>
 
         <article v-for=" item in infoRestaurant">
-            <h1>{{ item.restaurantName }}</h1>
+            <h1>{{ item.Namerestaurant }}</h1>
             <ol>
                 <li>{{ item.phoneNumber }}</li>
                 <li>{{ item.addressPostal }}</li>
@@ -73,7 +79,6 @@
         </article>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
         //On crée l'instance de Vue
         const app = new Vue({
@@ -81,11 +86,11 @@
             el: '#app',
             // Comme pour toute autre application, nous avons besoin de stocker les données afin de pouvoir les réutiliser et effectuer des actions pour l'utilisateur. Dans Vue, cela se concrétise par l'ajout d'une propriété « data » qui a comme valeur un objet. Elle peut accepter n'importe quelle paire clé - valeur classique que vous pourriez habituellement définir en JavaScript
             data: {
-
+                Namerestaurant: 'La bonne note',
                 // informations sur le restaurant
                 infoRestaurant: [
                     {
-                        restaurantName: 'La bonne note', //String
+                        Namerestaurant: 'La bonne note', 
                         phoneNumber: '05 53 58 57 85',
                         addressEmail: 'labonnenote@food.fr',
                         addressPostal: '5 avenue du général Joffre',
@@ -133,7 +138,16 @@
                 copyRight() {
                     const currentYear = new Date().getFullYear()
 
-                    return `Copyright ${this.restaurantName} ${currentYear}`
+                    return `Copyright ${this.Namerestaurant} ${currentYear}`
+                }
+            },
+            // change background color
+            methods: {
+                changecolorDark() {
+                    const body =  document.body.style.backgroundColor = "#121212"
+                },
+                changecolorDay() {
+                    const body =  document.body.style.backgroundColor = "#f2f2f2";
                 }
             },
         })
