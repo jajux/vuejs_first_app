@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours openclassrooms</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- Navigation -->
+        <header>
+            <nav class="navigation-bar">
+                <div id="navigation-container">
+                    <!-- logo site -->
+                    <a href="index.html">
+                        <img class="logo" src="images/logo.png" alt="logo site">
+                    </a>
+                    <!-- menu site -->
+                    <ul>
+                        <li><a href="#">A propos</a></li>
+                        <li><a href="#">Réservations</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                    <button><i class="ri-moon-clear-fill">Thème</i></button>
+                </div>
+            </nav>
+        </header>
+        <div class="heroimg">
+            <div class="heroimg__text">
+                <h1> {{ restaurantName }}</h1>
+                <p>
+                    Restaurant de cuisine gastro-mantique
+                </p>
+            </div>
+        </div>
+        <h2>Chez {{ restaurantName }}</h2>
+        <h3>Menu</h3>
+        <ul>
+            <li>Entrée = {{ fitstPlate }} €</li>
+            <li>Plat principal = {{ secondPlate }} €</li>
+            <li>Déssert = {{ thirdPlate }} €</li>
+        </ul>
+        <h3>Vins</h3>
+        <ul>
+            <li v-for=" item in wineCart">
+                <a v-bind:href="item.url">{{ item.label }}</a>= {{ item.price }} €
+            </li>
+        </ul>
+        <p>total = {{ totalWinePrice}}</p>
+
+        <article v-for=" item in infoRestaurant">
+            <h1>{{ item.restaurantName }}</h1>
+            <ol>
+                <li>{{ item.phoneNumber }}</li>
+                <li>{{ item.addressPostal }}</li>
+            </ol>
+            <ol>
+                <span>
+                    Suivez-nous sur:
+                </span>
+                <li v-for="item in apiResponse">
+                    <a v-bind:href="item.url">{{ item.name }}</a>
+                </li>
+            </ol>
+            <footer>
+                <span>&copy; {{ copyRight }} | tous droit réservés. | By Jawad EL HATTAB</span>
+            </footer>
+        </article>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        //On crée l'instance de Vue
+        const app = new Vue({
+            //config de notre instance Vue en lui transmettant un objet contenant notre première configuration : l'emplacement de la page sur laquelle Vue est installé.
+            el: '#app',
+            // Comme pour toute autre application, nous avons besoin de stocker les données afin de pouvoir les réutiliser et effectuer des actions pour l'utilisateur. Dans Vue, cela se concrétise par l'ajout d'une propriété « data » qui a comme valeur un objet. Elle peut accepter n'importe quelle paire clé - valeur classique que vous pourriez habituellement définir en JavaScript
+            data: {
+
+                // informations sur le restaurant
+                infoRestaurant: [
+                    {
+                        restaurantName: 'La bonne note', //String
+                        phoneNumber: '05 53 58 57 85',
+                        addressEmail: 'labonnenote@food.fr',
+                        addressPostal: '5 avenue du général Joffre',
+                    }
+                ],
+                fitstPlate: 8,
+                secondPlate: 9,
+                thirdPlate: 12,
+
+                // Cartes des vins
+                wineCart: [
+                    {
+                        label: 'Vin rouge',
+                        price: 20,
+                        url: '/redWine.html'
+                    },
+                    {
+                        label: 'Vin blanc',
+                        price: 15,
+                        url: '/whiteWine.html'
+                    },
+                    {
+                        label: 'Vin rosé',
+                        price: 10,
+                        url: '/roseWine.html'
+                    }
+                ],
+
+                // Liens vers les réseaux sociaux
+                apiResponse: [
+                    { name: 'Github', url: 'https://github.com/' },
+                    { name: 'Youtube', url: 'https://youtube.com/' },
+                ]
+            },
+
+            computed: {
+                totalWinePrice() {
+                    // this pour pointer vers l'instance de Vue afin de faire références aux propriétés de data.
+                    let total = 0
+                    this.wineCart.forEach(item => {
+                        total += item.price
+                    })
+                    return total
+                },
+                copyRight() {
+                    const currentYear = new Date().getFullYear()
+
+                    return `Copyright ${this.restaurantName} ${currentYear}`
+                }
+            },
+        })
+    </script>
+
+</body>
+
+</html>
